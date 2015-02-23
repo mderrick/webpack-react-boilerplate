@@ -1,0 +1,22 @@
+.layout {
+	background-color: #eee;
+}
+
+.layout-logo {
+	height: 112px;
+	width: 100px;
+	background-image: url('./../../assets/webpack-logo.png');
+	background-size: cover;
+	transform: rotate(10deg);
+}
+
+.layout h1 {
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.layout ul {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}

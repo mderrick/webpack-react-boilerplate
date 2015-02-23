@@ -1,0 +1,37 @@
+{
+  "name": "webpack-react-boilerplate",
+  "version": "0.0.1",
+  "description": "A webpack and react boilerplate project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "style-loader": "~0.8.3",
+    "css-loader": "~0.9.1",
+    "csswring": "~3.0.1",
+    "postcss-loader": "~0.3.0",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-express": "^0.1.7",
+    "url-loader": "^0.5.5",
+    "webpack": "^1.5.3",
+    "jsx-loader": "~0.12.2",
+    "colors": "^1.0.3",
+    "consolidate": "^0.11.0",
+    "express": "^4.11.2",
+    "handlebars": "^3.0.0",
+    "stats-webpack-plugin": "0.0.1",
+    "expose-loader": "~0.6.0",
+    "react-proxy-loader": "~0.3.2",
+    "autoprefixer-core": "~5.1.5",
+    "css-mqpacker": "~3.0.1",
+    "yargs": "~3.0.4",
+    "gulp-livereload": "~3.7.0",
+    "connect-livereload": "~0.5.3",
+    "gulp-load-plugins": "~0.8.0",
+    "gulp-util": "~3.0.3"
+  }
+}

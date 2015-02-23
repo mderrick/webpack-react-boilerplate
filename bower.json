@@ -1,0 +1,8 @@
+{
+  "name": "webpack-react-boilerplate",
+  "dependencies": {
+    "react": "~0.12.2",
+    "react-router": "~0.12.0",
+    "css-reset": "https://github.com/mderrick/css-reset.git"
+  }
+}
