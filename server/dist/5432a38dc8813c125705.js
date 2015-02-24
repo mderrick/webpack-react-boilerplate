@@ -1,1 +1,0 @@
-exports.ids=[2],exports.modules={11:function(e,t,n){var r=n(4),o=(n(15),r.createClass({displayName:"View",classes:r.addons.classSet({about:!0}),render:function(){return r.createElement("div",{className:this.classes},r.createElement("h2",null,"About"))}}));e.exports=o},15:function(e,t,n){t=e.exports=n(16)(),t.push([e.id,".about h2{font-size:20px;color:#00f}",""])}};

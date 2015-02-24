@@ -2,6 +2,7 @@
 node_modules
 bower_components
 /dist
+/server/dist
 .grunt
 _SpecRunner.html
 server/stats.json
