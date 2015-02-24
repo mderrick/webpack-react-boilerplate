@@ -12,7 +12,8 @@ module.exports = function(gulp, plugins, args) {
         return {
             debug: true,
             devtool: 'inline-source-map',
-            entry: 'app.js',
+            entry: 'client.js',
+            target: 'web',
             output: {
                 path: path.join(__dirname, '../dist'),
                 filename: 'entry.js',
@@ -47,13 +48,13 @@ module.exports = function(gulp, plugins, args) {
                 browsers: ['last 5 version']
             }), mqpacker, csswring],
             plugins: [
-                new webpack.ResolverPlugin(
-                    new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
-                ),
                 // Output the stats to use with the server
                 new StatsPlugin(path.join(__dirname, '../dist', 'stats.json'), {
                     chunkModules: true
                 }),
+                new webpack.ResolverPlugin(
+                    new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
+                ),
                 new webpack.DefinePlugin(require(path.join(__dirname, '../env/', args.env))),
                 new webpack.optimize.DedupePlugin()
             ]
@@ -88,13 +89,25 @@ module.exports = function(gulp, plugins, args) {
      */
     gulp.task('build', ['clean:dist'], function(cb) {
         var config = getDevelopmentConfig(),
+            serverConfig = getDevelopmentConfig(),
             compiler,
             firstBuild = true;
 
         if (args.release) {
             config = getReleaseConfig();
+            serverConfig = getReleaseConfig();
         }
-        compiler = webpack(config);
+
+        // TODO: TIDY UP
+        serverConfig.entry = 'server.js';
+        serverConfig.target = 'node';
+        serverConfig.output.path = path.join(__dirname, '../server/dist');
+        serverConfig.module.loaders[0].loader = 'css-loader!postcss-loader';
+        serverConfig.output.libraryTarget = 'commonjs2';
+        serverConfig.plugins.splice(0, 1);
+        delete serverConfig.devtool;
+
+        compiler = webpack([serverConfig, config]);
 
         if (args.watch) {
             plugins.livereload.listen();

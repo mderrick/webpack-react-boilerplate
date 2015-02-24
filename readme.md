@@ -12,9 +12,11 @@
 
 
 ### TODO
-- Server file to include chunk (means forking react-proxy and giving chunks a name)
-- Remove handlebars from server
-- Isomorphic
+- Isomorphic (in progress)
+	- Remove handlebars from server anduse react (done)
+	- Tidy up building serverside `entry.js`
+	- Server file to include chunk (means forking react-proxy and giving chunks a name)
+	- Stylsheets for routes (how will not duplicate CSS already in the JS file?)
 - Add flux and build a small demo
 - Make it pretty
 - Livereload change event to include changed filename
