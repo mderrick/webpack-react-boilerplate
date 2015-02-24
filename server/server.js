@@ -19,10 +19,6 @@ var args = require('yargs')
 
 app.set('port', process.env.PORT || 9001);
 
-app.engine('html', cons.handlebars);
-app.set('view engine', 'html');
-app.set('views', path.join(__dirname, './views'));
-
 if (args.watch) {
     app.use(require('connect-livereload')());
 }
