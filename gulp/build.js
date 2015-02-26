@@ -91,7 +91,23 @@ module.exports = function(gulp, plugins, args) {
         var config = getDevelopmentConfig(),
             serverConfig = getDevelopmentConfig(),
             compiler,
-            firstBuild = true;
+            firstBuild = true,
+            webpackCallback = function(err, stats) {
+                if (err) throw new plugins.util.PluginError('webpack', err);
+                if (!firstBuild && args.watch) {
+                    // TODO: Filename
+                    // TODO: How is this called on first build?!
+                    plugins.livereload.changed('app');
+                }
+                if (firstBuild) {
+                    firstBuild = false;
+                    plugins.util.log(stats.toString({
+                        colors: true
+                    }));
+                    cb();
+                    return;
+                }
+            };
 
         if (args.release) {
             config = getReleaseConfig();
@@ -106,26 +122,14 @@ module.exports = function(gulp, plugins, args) {
         serverConfig.output.libraryTarget = 'commonjs2';
         serverConfig.plugins.splice(0, 1);
         delete serverConfig.devtool;
+        // END TODO
 
         compiler = webpack([serverConfig, config]);
-
         if (args.watch) {
             plugins.livereload.listen();
-            compiler.watch(0, function(err, stats) {
-                if (err) throw new plugins.util.PluginError('webpack', err);
-                if (firstBuild) {
-                    firstBuild = false;
-                    cb();
-                    return;
-                }
-                // TODO Filename
-                plugins.livereload.changed('app');
-            });
+            compiler.watch(0, webpackCallback);
         } else {
-            compiler.run(function(err, stats) {
-                if (err) throw new plugins.util.PluginError('webpack', err);
-                cb();
-            });
+            compiler.run(webpackCallback);
         }
 
         process.on('SIGINT', function() {

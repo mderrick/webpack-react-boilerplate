@@ -6,7 +6,8 @@ module.exports = function(gulp, plugins, args) {
      */
     gulp.task('clean:dist', function (cb) {
         del([
-            'dist/**'
+            'dist/**',
+            'server/dist/**'
         ], cb);
     });
 };

@@ -23,7 +23,7 @@
     "express": "^4.11.2",
     "stats-webpack-plugin": "0.0.1",
     "expose-loader": "~0.6.0",
-    "react-proxy-loader": "~0.3.2",
+    "react-proxy-loader": "git+https://github.com/mderrick/react-proxy-loader.git",
     "autoprefixer-core": "~5.1.5",
     "css-mqpacker": "~3.0.1",
     "yargs": "~3.0.4",

@@ -27,11 +27,10 @@ app.use(express.static(path.join(__dirname, '../dist')));
 app.use(function(req, res, next) {
     'use strict';
     var assets = stats.assetsByChunkName,
-        js = [assets.main],
         route = req.url.replace(/\//g, '') || '/';
 
     // TODO: Get chunk and pass this down to HTML
-    entry(req, res, next, assets.main);
+    entry(req, res, next, assets);
 });
 
 app.listen(app.get('port'), function() {

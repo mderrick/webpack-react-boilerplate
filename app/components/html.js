@@ -10,7 +10,8 @@ var Html = React.createClass({
                 <body>
                     <div id="main" dangerouslySetInnerHTML={{__html: this.props.markup}}>
                     </div>
-                    <script src={this.props.js}></script>
+                    <script src={this.props.jsmain}></script>
+                    <script src={this.props.jschunk}></script>
                 </body>
             </html>
         );

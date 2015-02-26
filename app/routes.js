@@ -2,8 +2,8 @@ var React = require('react'),
 	Router = require('react-router'),
 	Layout = require('./components/layout/view'),
 	LoadingMixin = require('./mixins/loading'),
-	Index = require('react-proxy!./components/layout/index/view'),
-	About = require('react-proxy!./components/layout/about/view');
+	Index = require('react-proxy?name=index!./components/layout/index/view'),
+	About = require('react-proxy?name=about!./components/layout/about/view');
 
 /**
  * Proxied React views to mixin the
