@@ -4,5 +4,5 @@ var React = require('react'),
 	css = require('app.css');
 
 Router.run(routes, Router.HistoryLocation, function (Handler) {
-    React.render(<Handler/>, document.getElementById('main'));
+    React.render(<Handler/>, document.body);
 });

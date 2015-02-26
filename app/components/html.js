@@ -12,7 +12,6 @@ var Html = React.createClass({
                     </div>
                     <script src={this.props.js}></script>
                 </body>
-                
             </html>
         );
     }
