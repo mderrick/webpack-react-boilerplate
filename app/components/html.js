@@ -7,11 +7,15 @@ var Html = React.createClass({
                 <head>
                     <title>Webpack React Boilerplate</title>
                 </head>
+                {this.props.css.map(function(style) {
+                    return <link rel="stylesheet" href={style}></link>;
+                })}
                 <body>
                     <div id="main" dangerouslySetInnerHTML={{__html: this.props.markup}}>
                     </div>
-                    <script src={this.props.jsmain}></script>
-                    <script src={this.props.jschunk}></script>
+                    {this.props.js.map(function(script) {
+                        return <script src={script}></script>;
+                    })}
                 </body>
             </html>
         );

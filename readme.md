@@ -12,11 +12,9 @@
 
 
 ### TODO
-- Isomorphic (in progress)
-	- Remove handlebars from server anduse react (done)
-	- Tidy up building serverside `entry.js`
-	- Server file to include chunk (means forking react-proxy and giving chunks a name)
-	- Stylsheets for routes (how will not duplicate CSS already in the JS file?)
+- Stylesheets for routes (Right now including all CSS in one stylsheet but we need to only include CSS for the HTML that is rendered). Further CSS at a code split should be returned within the JS chunk. [See here](https://github.com/webpack/react-webpack-server-side-example/blob/master/server/style-collector.loader.js) for help maybe.)
+- Tidy where we build serverside `entry.js` in the build gulp task.
+- Look into a more reliable way to overide plugins and loaders array items without relying on position.
 - Add flux and build a small demo
 - Make it pretty
 - Livereload change event to include changed filename

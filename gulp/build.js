@@ -4,6 +4,7 @@ var path = require('path');
 var autoprefixer = require('autoprefixer-core');
 var csswring = require('csswring');
 var mqpacker = require('css-mqpacker');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function(gulp, plugins, args) {
 
@@ -22,7 +23,7 @@ module.exports = function(gulp, plugins, args) {
             module: {
                 loaders: [{
                     test: /\.css$/,
-                    loader: 'style-loader!css-loader!postcss-loader'
+                    loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader')
                 }, {
                     test: /\.(jpe?g|png|gif|svg)$/i,
                     loader: 'url?limit=8192'
@@ -56,7 +57,10 @@ module.exports = function(gulp, plugins, args) {
                     new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
                 ),
                 new webpack.DefinePlugin(require(path.join(__dirname, '../env/', args.env))),
-                new webpack.optimize.DedupePlugin()
+                new webpack.optimize.DedupePlugin(),
+                new ExtractTextPlugin('[name].css', {
+                    allChunks: true
+                })
             ]
         };
     };
@@ -117,8 +121,9 @@ module.exports = function(gulp, plugins, args) {
         // TODO: TIDY UP
         serverConfig.entry = 'server.js';
         serverConfig.target = 'node';
+        serverConfig.output.filename = 'entry.js';
         serverConfig.output.path = path.join(__dirname, '../server/dist');
-        serverConfig.module.loaders[0].loader = 'css-loader!postcss-loader';
+        serverConfig.module.loaders[0].loader = ExtractTextPlugin.extract('css-loader!postcss-loader');
         serverConfig.output.libraryTarget = 'commonjs2';
         serverConfig.plugins.splice(0, 1);
         delete serverConfig.devtool;
