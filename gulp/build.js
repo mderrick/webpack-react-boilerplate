@@ -9,7 +9,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = function(gulp, plugins, args) {
 
     var getDefaultConfig = function() {
-
         return {
             debug: true,
             devtool: 'inline-source-map',
@@ -89,18 +88,33 @@ module.exports = function(gulp, plugins, args) {
     };
 
     /**
+     * The server config overides release or dev config
+     */
+    var getServerConfig = function() {
+        var config = args.release ? getReleaseConfig() : getDevelopmentConfig();
+        config.entry = 'server.js';
+        config.target = 'node';
+        config.output.filename = 'entry.js';
+        config.output.path = path.join(__dirname, '../server/dist');
+        config.module.loaders[0].loader = ExtractTextPlugin.extract('css-loader!postcss-loader');
+        config.output.libraryTarget = 'commonjs2';
+        config.plugins.splice(0, 1);
+        delete config.devtool;
+        return config;
+    };
+
+    /**
      * Run webpack ready for dev or distribution
      */
     gulp.task('build', ['clean:dist'], function(cb) {
-        var config = getDevelopmentConfig(),
-            serverConfig = getDevelopmentConfig(),
-            compiler,
+        var config = args.release ? getReleaseConfig() : getDevelopmentConfig(),
+            compiler = webpack([getServerConfig(), config]),
             firstBuild = true,
             webpackCallback = function(err, stats) {
                 if (err) throw new plugins.util.PluginError('webpack', err);
                 if (!firstBuild && args.watch) {
                     // TODO: Filename
-                    // TODO: How is this called on first build?!
+                    // TODO: why  is this being called on first build?!
                     plugins.livereload.changed('app');
                 }
                 if (firstBuild) {
@@ -113,23 +127,6 @@ module.exports = function(gulp, plugins, args) {
                 }
             };
 
-        if (args.release) {
-            config = getReleaseConfig();
-            serverConfig = getReleaseConfig();
-        }
-
-        // TODO: TIDY UP
-        serverConfig.entry = 'server.js';
-        serverConfig.target = 'node';
-        serverConfig.output.filename = 'entry.js';
-        serverConfig.output.path = path.join(__dirname, '../server/dist');
-        serverConfig.module.loaders[0].loader = ExtractTextPlugin.extract('css-loader!postcss-loader');
-        serverConfig.output.libraryTarget = 'commonjs2';
-        serverConfig.plugins.splice(0, 1);
-        delete serverConfig.devtool;
-        // END TODO
-
-        compiler = webpack([serverConfig, config]);
         if (args.watch) {
             plugins.livereload.listen();
             compiler.watch(0, webpackCallback);

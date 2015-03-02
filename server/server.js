@@ -29,7 +29,6 @@ app.use(function(req, res, next) {
     var assets = stats.assetsByChunkName,
         route = req.url.replace(/\//g, '') || '/';
 
-    // TODO: Get chunk and pass this down to HTML
     entry(req, res, next, assets);
 });
 
