@@ -109,22 +109,35 @@ module.exports = function(gulp, plugins, args) {
     gulp.task('build', ['clean:dist'], function(cb) {
         var config = args.release ? getReleaseConfig() : getDevelopmentConfig(),
             compiler = webpack([getServerConfig(), config]),
-            firstBuild = true,
+            callbackCount = 0,
             webpackCallback = function(err, stats) {
                 if (err) throw new plugins.util.PluginError('webpack', err);
-                if (!firstBuild && args.watch) {
-                    // TODO: Filename
-                    // TODO: why  is this being called on first build?!
+
+                // Both server and client builds have completed.
+                var initialBuildComplete = callbackCount > 1,
+                    callGulpCallback = callbackCount === 1;
+
+                // Log stats info
+                // TODO: Make this more useful, logs out way too much crap
+                // http://webpack.github.io/docs/node.js-api.html#stats-tojson
+                plugins.util.log(stats.toString({
+                    colors: true
+                }));
+
+                if (initialBuildComplete && args.watch) {
+                    // TODO: Filename changed
                     plugins.livereload.changed('app');
                 }
-                if (firstBuild) {
-                    firstBuild = false;
-                    plugins.util.log(stats.toString({
-                        colors: true
-                    }));
+
+                // Both server and client builds have completed.
+                if (callGulpCallback) {
                     cb();
-                    return;
+                    if (args.watch) {
+                        plugins.util.log('Watching for changes');
+                    }
                 }
+
+                callbackCount++;
             };
 
         if (args.watch) {
