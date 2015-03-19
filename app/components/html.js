@@ -1,6 +1,8 @@
-var React = require('react');
+var React = require('react'),
+    FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var Html = React.createClass({
+
     render: function() {
         return (
             <html>
@@ -13,6 +15,7 @@ var Html = React.createClass({
                 <body>
                     <div id="main" dangerouslySetInnerHTML={{__html: this.props.markup}}>
                     </div>
+                    <script dangerouslySetInnerHTML={{__html: this.props.state}}></script>
                     {this.props.js.map(function(script) {
                         return <script src={script}></script>;
                     })}

@@ -1,8 +1,11 @@
 var React = require('react'),
 	Router = require('react-router'),
-	css = require('./style.css');
+	css = require('./style.css'),
+	FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var View = React.createClass({
+	
+	mixins: [FluxibleMixin],
 
 	classes: React.addons.classSet({
 		'layout': true

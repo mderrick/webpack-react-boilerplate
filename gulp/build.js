@@ -40,6 +40,8 @@ module.exports = function(gulp, plugins, args) {
                     path.join(__dirname, '../app'),
                 ],
                 alias: {
+                    // 'react/addons' is for 'node_modules/fluxible'
+                    'react/addons': 'react/react-with-addons.js',
                     'react': 'react/react-with-addons.js'
                 }
             },

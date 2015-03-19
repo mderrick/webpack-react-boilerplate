@@ -31,6 +31,10 @@
     "connect-livereload": "~0.5.3",
     "gulp-load-plugins": "~0.8.0",
     "gulp-util": "~3.0.3",
-    "extract-text-webpack-plugin": "~0.3.8"
+    "extract-text-webpack-plugin": "~0.3.8",
+    "react": "~0.13.1",
+    "fluxible": "~0.3.0",
+    "serialize-javascript": "~1.0.0",
+    "superagent": "~1.1.0"
   }
 }

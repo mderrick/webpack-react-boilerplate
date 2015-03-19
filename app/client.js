@@ -1,8 +1,11 @@
 var React = require('react'),
 	Router = require('react-router'),
 	css = require('app.css'),
-	routes = require('./routes');
+	app = require('./app'),
+	routes = app.getComponent();
 
-Router.run(routes, Router.HistoryLocation, function (Handler) {
-    React.render(<Handler/>, document.body);
+app.rehydrate(window.App, function (err, context) {
+	Router.run(routes, Router.HistoryLocation, function (Handler) {
+	    React.render(<Handler context={context.getComponentContext()}/>, document.body);
+	});
 });
