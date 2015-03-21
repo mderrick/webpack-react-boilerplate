@@ -12,6 +12,7 @@ Also uses:
 
 ### Quick start
 - `npm install`
+- `bower install`
 - `npm install gulp -g`
 - `gulp serve`
 
