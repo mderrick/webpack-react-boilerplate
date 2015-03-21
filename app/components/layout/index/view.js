@@ -1,48 +1,38 @@
 var React = require('react'),
     css = require('./style.css'),
+    Router = require('react-router'),
     getUser = require('./../../../actions/getUser'),
     UserStore = require('./../../../stores/UserStore'),
     FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var View = React.createClass({
 
-    mixins: [FluxibleMixin],
-
-    statics: {
-        storeListeners: [UserStore],
-        // LoadAction is the action that the server needs to run to make
-        // this component isomorphic.
-        loadAction: getUser
-    },
-    
     classes: React.addons.classSet({
-        'index': true
+        'about': true
     }),
-
-    getInitialState: function () {
-        return this.getStore(UserStore).getState();
-    },
-
-    onClick: function (e) {
-        e.preventDefault();
-        this.executeAction(getUser, 'octocat');
-    },
-
-    onChange: function () {
-        // Fluxible Mixin triggers this default change event
-        var state = this.getStore(UserStore).getState();
-        this.setState(state);
-    },
 
     render: function () {
         return (
             <div className={this.classes}>
                 <h2>Index</h2>
+                <p>GitHub Users:</p>
                 <ul>
-                    <li>{this.state.user.login}</li>
-                    <li><img src={this.state.user.avatar_url} /></li>
+                    <li>
+                        <Router.Link to="user" params={{username: "mderrick"}}>
+                            mderrick
+                        </Router.Link>
+                    </li>
+                    <li>
+                        <Router.Link to="user" params={{username: "octocat"}}>
+                            octocat
+                        </Router.Link>
+                    </li>
+                    <li>
+                        <Router.Link to="user" params={{username: "oopsyanunknownuser"}}>
+                            An unknown user
+                        </Router.Link>
+                    </li>
                 </ul>
-                <a href={'#'} onClick={this.onClick}>Fetch Another User</a>
             </div>
         );
     }

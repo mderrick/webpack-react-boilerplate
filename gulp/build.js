@@ -15,6 +15,7 @@ module.exports = function(gulp, plugins, args) {
             entry: 'client.js',
             target: 'web',
             output: {
+                publicPath: '/',
                 path: path.join(__dirname, '../dist'),
                 filename: 'entry.js',
                 chunkFilename: '[id].js'

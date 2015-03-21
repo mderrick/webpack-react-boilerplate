@@ -8,8 +8,8 @@ var React = require('react'),
 module.exports = function (req, res, next, assets) {
 
     var js = [assets.main[0]],
-            css = [assets.main[1]],
-            context = app.createContext();
+        css = [assets.main[1]],
+        context = app.createContext();
 
     Router.run(routes, req.url, function (Handler, state) {
         require('routeActions')(state, context, function() {
