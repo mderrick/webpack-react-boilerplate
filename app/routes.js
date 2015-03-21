@@ -13,6 +13,13 @@ var AboutProxy = React.createClass({
     mixins: [About.Mixin, LoadingMixin]
 });
 var IndexProxy = React.createClass({
+	statics: {
+		// TODO: This is duplicated from 'components/index/view.js'
+		// until we modify the ProxyView plugin to proxy 'statics'
+		// to this IndexProxy. This is so the server can see what
+		// action is required to load data for this view.
+		loadAction: require('./actions/getUser')
+	},
     mixins: [Index.Mixin, LoadingMixin]
 });
 

@@ -32,9 +32,20 @@ module.exports = function(gulp, plugins, args) {
                 }, {
                     test: /react-with-addons\.js$/,
                     loader: 'expose?React'
+                }, {
+                    test: /superagent/,
+                    loader: 'expose?request'
+                }, {
+                    test: /\.json$/,
+                    loader: 'json'
                 }]
             },
-             resolve: {
+            // Superagent requires this with webpack:
+            // https://github.com/visionmedia/superagent/wiki/Superagent-for-Webpack
+            node: {
+                __dirname: true
+            },
+            resolve: {
                 root: [
                     path.join(__dirname, '../bower_components'),
                     path.join(__dirname, '../app'),
@@ -57,6 +68,9 @@ module.exports = function(gulp, plugins, args) {
                 new webpack.ResolverPlugin(
                     new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
                 ),
+                // Superagent requires this with webpack:
+                // https://github.com/visionmedia/superagent/wiki/Superagent-for-Webpack
+                new webpack.DefinePlugin({ 'global.GENTLY': false }),
                 new webpack.DefinePlugin(require(path.join(__dirname, '../env/', args.env))),
                 new webpack.optimize.DedupePlugin(),
                 new ExtractTextPlugin('[name].css', {

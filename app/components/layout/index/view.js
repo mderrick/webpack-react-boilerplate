@@ -1,7 +1,7 @@
 var React = require('react'),
     css = require('./style.css'),
-    updateTime = require('./../../../actions/updateTime'),
-    TimeStore = require('./../../../stores/TimeStore'),
+    getUser = require('./../../../actions/getUser'),
+    UserStore = require('./../../../stores/UserStore'),
     FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var View = React.createClass({
@@ -9,7 +9,10 @@ var View = React.createClass({
     mixins: [FluxibleMixin],
 
     statics: {
-        storeListeners: [TimeStore]
+        storeListeners: [UserStore],
+        // LoadAction is the action that the server needs to run to make
+        // this component isomorphic.
+        loadAction: getUser
     },
     
     classes: React.addons.classSet({
@@ -17,19 +20,17 @@ var View = React.createClass({
     }),
 
     getInitialState: function () {
-        return this.getStore(TimeStore).getState();
+        return this.getStore(UserStore).getState();
     },
 
-    onReset: function (e) {
+    onClick: function (e) {
         e.preventDefault();
-        this.executeAction(updateTime);
+        this.executeAction(getUser, 'octocat');
     },
 
-    /**
-     * Fluxible Mixin triggers this default change event
-     */
     onChange: function () {
-        var state = this.getStore(TimeStore).getState();
+        // Fluxible Mixin triggers this default change event
+        var state = this.getStore(UserStore).getState();
         this.setState(state);
     },
 
@@ -37,8 +38,11 @@ var View = React.createClass({
         return (
             <div className={this.classes}>
                 <h2>Index</h2>
-                <p>{this.state.time}</p>
-                <a href={'#'} onClick={this.onReset}>Reset Time</a>
+                <ul>
+                    <li>{this.state.user.login}</li>
+                    <li><img src={this.state.user.avatar_url} /></li>
+                </ul>
+                <a href={'#'} onClick={this.onClick}>Fetch Another User</a>
             </div>
         );
     }

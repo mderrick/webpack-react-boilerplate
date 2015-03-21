@@ -2,36 +2,35 @@ var createStore = require('fluxible/addons/createStore');
 
 var TimeStore = createStore({
 
-    storeName: 'TimeStore',
+    storeName: 'UserStore',
 
     initialize: function () {
-        this.time = new Date();
+        this.user = {};
     },
 
-    handleTimeChange: function (payload) {
-        this.time = new Date();
+    updateUser: function (payload) {
+        this.user = JSON.parse(payload);
         this.emitChange();
     },
 
     handlers: {
-        'UPDATE_TIME': 'handleTimeChange',
-        'CHANGE_ROUTE': 'handleTimeChange'
+        'UPDATE_USER': 'updateUser'
     },
 
     getState: function () {
         return {
-            time: this.time.toString()
+            user: this.user
         };
     },
 
     dehydrate: function () {
         return {
-            time: this.time.toString()
+            user: this.user
         };
     },
 
     rehydrate: function (state) {
-        this.time = new Date(state.time);
+        this.user = state.user;
     }
 });
 

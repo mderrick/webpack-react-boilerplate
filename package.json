@@ -35,6 +35,8 @@
     "react": "~0.13.1",
     "fluxible": "~0.3.0",
     "serialize-javascript": "~1.0.0",
-    "superagent": "~1.1.0"
+    "superagent": "~1.1.0",
+    "json-loader": "~0.5.1",
+    "async": "~0.9.0"
   }
 }

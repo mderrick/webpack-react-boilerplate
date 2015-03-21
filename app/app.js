@@ -4,6 +4,6 @@ var app = new Fluxible({
 	component: require('./routes.js')
 });
 
-app.registerStore(require('./stores/TimeStore'));
+app.registerStore(require('./stores/UserStore'));
 
 module.exports = app;

@@ -9,20 +9,22 @@ module.exports = function (req, res, next, assets) {
 
     var js = [assets.main[0]],
             css = [assets.main[1]],
-            context = app.createContext(),
-            componentContext = context.getComponentContext();
+            context = app.createContext();
 
     Router.run(routes, req.url, function (Handler, state) {
-        context.executeAction(require('./actions/navigate'), state, function () {
-        	try {
-        		js.push(assets[state.routes[1].name]);
-        	} catch(err) {}
+        require('routeActions')(state, context, function() {
+            // Render app with context and specify JS and CSS files
+            // from webpack stats.json
+            try {
+                js.push(assets[state.routes[1].name]);
+            } catch(err) {}
 
-            var exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';';
+            var exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';',
+                componentContext = context.getComponentContext();
 
             var markup = React.renderToString(<Handler context={componentContext} />),
                 html = React.renderToStaticMarkup(
-                	<Html js={js} css={css} markup={markup} state={exposed} context={componentContext} />
+                    <Html js={js} css={css} markup={markup} state={exposed} context={componentContext} />
                 );
             res.send('<!DOCTYPE html>' + html);
         });
