@@ -1,5 +1,7 @@
 # Webpack React Boilerplate
 
+[Isomorphic Branch](https://github.com/mderrick/webpack-react-boilerplate/tree/fluxible) work in progress can be found here.
+
 ### Quick start
 - `npm install`
 - `npm install gulp -g`
