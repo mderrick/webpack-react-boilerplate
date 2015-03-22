@@ -14,11 +14,18 @@ var AboutProxy = React.createClass({
     mixins: [About.Mixin, LoadingMixin]
 });
 var IndexProxy = React.createClass({
+	statics: {
+		// TODO: This is duplicated from 'components/index/view.js'
+		// until we modify the ProxyView plugin to proxy 'statics'
+		// to this IndexProxy. This is so the server can see what
+		// action is required to load data for this view.
+		loadAction: require('./actions/getFollowers')
+	},
     mixins: [Index.Mixin, LoadingMixin]
 });
 var UsersProxy = React.createClass({
 	statics: {
-		// TODO: This is duplicated from 'components/index/view.js'
+		// TODO: This is duplicated from 'components/user/view.js'
 		// until we modify the ProxyView plugin to proxy 'statics'
 		// to this IndexProxy. This is so the server can see what
 		// action is required to load data for this view.

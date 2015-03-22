@@ -29,6 +29,8 @@ proxied view.
 - Remove webpack configs into own files `webpack.default.config.js`, `webpack.dev.config.js`, `webpack.release.config.js` and `webpack.server.config.js`.
 - Look into a more reliable way to overide plugins and loaders array items without relying on position.
 - Livereload change event to include changed filename.
-- Make it pretty.
+- Namespace CSS correctly.
+- Break down views into subviews.
 - Unit tests.
 - Build a full application.
+- Style loading view for requesting JS and for API requests.

@@ -1,17 +1,17 @@
 var createStore = require('fluxible/addons/createStore');
 
-var UserStore = createStore({
+var FollowersStore = createStore({
 
-    storeName: 'UserStore',
+    storeName: 'FollowersStore',
 
     initialize: function () {
-        this.user = {};
+        this.followers = [];
         this.error = false;
     },
 
-    updateUser: function (payload) {
+    updateFollowers: function (payload) {
         this.error = false;
-        this.user = JSON.parse(payload);
+        this.followers = JSON.parse(payload);
         this.emitChange();
     },
 
@@ -21,28 +21,28 @@ var UserStore = createStore({
     },
 
     handlers: {
-        'UPDATE_USER_SUCCESS': 'updateUser',
-        'UPDATE_USER_ERROR': 'updateError'
+        'UPDATE_FOLLOWERS_SUCCESS': 'updateFollowers',
+        'UPDATE_FOLLOWERS_ERROR': 'updateError'
     },
 
     getState: function () {
         return {
             error: this.error,
-            user: this.user
+            followers: this.followers
         };
     },
 
     dehydrate: function () {
         return {
             error: this.error,
-            user: this.user
+            followers: this.followers
         };
     },
 
     rehydrate: function (state) {
         this.error = state.error;
-        this.user = state.user;
+        this.followers = state.followers;
     }
 });
 
-module.exports = UserStore;
+module.exports = FollowersStore;

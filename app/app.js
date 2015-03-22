@@ -5,5 +5,6 @@ var app = new Fluxible({
 });
 
 app.registerStore(require('./stores/UserStore'));
+app.registerStore(require('./stores/FollowersStore'));
 
 module.exports = app;

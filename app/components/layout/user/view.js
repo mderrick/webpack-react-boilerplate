@@ -23,11 +23,6 @@ var View = React.createClass({
         return this.getStore(UserStore).getState();
     },
 
-    onClick: function (e) {
-        e.preventDefault();
-        this.executeAction(getUser, 'octocat');
-    },
-
     onChange: function () {
         // Fluxible Mixin triggers this default change event
         var state = this.getStore(UserStore).getState();
@@ -38,17 +33,41 @@ var View = React.createClass({
         var view;
         if (this.state.error) {
             view = (
-                <div>
-                    <h2>User Error</h2>
-                    <div>{this.state.error}</div>
+                <div className="error">
+                    <h2 className="layout-subtitle">User Error</h2>
+                    <p>Oops! There was an API problem.</p>
+                    <p>{this.state.error}</p>
                 </div>
             );
         } else {
             view = (
-                <div>
-                    <h2>{this.state.user.login}</h2>
-                    <ul>
-                        <li><img src={this.state.user.avatar_url} /></li>
+                <div className="-clearfix">
+                    <h2 className="layout-subtitle">{this.state.user.login}</h2>
+                    <div className="user-image">
+                        <img className="user-image" src={this.state.user.avatar_url} />
+                    </div>
+                    <ul className="user-detail-set">
+                        <li className="user-detail-item">
+                            {this.state.user.name}
+                        </li>
+                        <li className="user-detail-item">
+                            {this.state.user.location}
+                        </li>
+                        <li className="user-detail-item">
+                            <a href={'http://' + this.state.user.blog}>
+                                {this.state.user.blog}
+                            </a>
+                        </li>
+                        <li className="user-detail-item">
+                            <a href={'mailto:' + this.state.user.email}>
+                                {this.state.user.email}
+                            </a>
+                        </li>
+                        <li className="user-detail-item">
+                            <a target="_blank" href={this.state.user.url}>
+                                Visit GitHub Page
+                            </a>
+                        </li>
                     </ul>
                 </div>
             );
