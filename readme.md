@@ -22,6 +22,7 @@ Also uses:
 - `--env=<ENV>` - Loads in the settings from file `env/<ENV>.js`
 
 ### TODO
+- [ ] Tabs to spaces!
 - [x] Fix server not keeping alive unless you watch.
 - [ ] Expose `statics.loadAction` from the code split proxied view without duplicating in
 proxied view.
