@@ -72,7 +72,10 @@ module.exports = function(gulp, plugins, args) {
                 // Superagent requires this with webpack:
                 // https://github.com/visionmedia/superagent/wiki/Superagent-for-Webpack
                 new webpack.DefinePlugin({ 'global.GENTLY': false }),
-                new webpack.DefinePlugin(require(path.join(__dirname, '../env/', args.env))),
+                new webpack.DefinePlugin({ 'ENV.browser': true }),
+                new webpack.DefinePlugin({
+                    ENV: require(path.join(__dirname, '../env/', args.env))
+                }),
                 new webpack.optimize.DedupePlugin(),
                 new ExtractTextPlugin('[name].css', {
                     allChunks: true
@@ -115,6 +118,7 @@ module.exports = function(gulp, plugins, args) {
         config.output.path = path.join(__dirname, '../server/dist');
         config.module.loaders[0].loader = ExtractTextPlugin.extract('css-loader!postcss-loader');
         config.output.libraryTarget = 'commonjs2';
+        config.plugins.splice(3, 1, new webpack.DefinePlugin({ 'ENV.browser': false }));
         config.plugins.splice(0, 1);
         delete config.devtool;
         return config;

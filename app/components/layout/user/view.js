@@ -2,11 +2,12 @@ var React = require('react'),
     css = require('./style.css'),
     getUser = require('./../../../actions/getUser'),
     UserStore = require('./../../../stores/UserStore'),
-    FluxibleMixin = require('fluxible').FluxibleMixin;
+    FluxibleMixin = require('fluxible').FluxibleMixin,
+    LoadingMixin = require('./../../../mixins/loading');
 
 var View = React.createClass({
 
-    mixins: [FluxibleMixin],
+    mixins: [FluxibleMixin, LoadingMixin],
 
     statics: {
         storeListeners: [UserStore],
@@ -31,7 +32,10 @@ var View = React.createClass({
 
     render: function () {
         var view;
-        if (this.state.error) {
+
+        if (this.state.loading) {
+            view = this.getLoadingView();
+        } else if (this.state.error) {
             view = (
                 <div className="error">
                     <h2 className="layout-subtitle">User Error</h2>

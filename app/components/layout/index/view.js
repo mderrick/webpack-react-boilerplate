@@ -3,11 +3,12 @@ var React = require('react'),
     Router = require('react-router'),
     getFollowers = require('./../../../actions/getFollowers'),
     FollowersStore = require('./../../../stores/FollowersStore'),
-    FluxibleMixin = require('fluxible').FluxibleMixin;
+    FluxibleMixin = require('fluxible').FluxibleMixin,
+    LoadingMixin = require('./../../../mixins/loading');
 
 var View = React.createClass({
 
-    mixins: [FluxibleMixin],
+    mixins: [FluxibleMixin, LoadingMixin],
 
     statics: {
         storeListeners: [FollowersStore],
@@ -31,6 +32,7 @@ var View = React.createClass({
     },
 
     render: function () {
+
         var rows = [],
             view;
 
@@ -49,7 +51,9 @@ var View = React.createClass({
             );
         }
 
-        if (this.state.error) {
+        if (this.state.loading) {
+            view = this.getLoadingView();
+        } else if (this.state.error) {
             view = (
                 <div className="error">
                     <p>Oops! There was an API problem.</p>

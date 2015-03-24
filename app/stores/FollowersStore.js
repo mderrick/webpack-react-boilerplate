@@ -7,26 +7,36 @@ var FollowersStore = createStore({
     initialize: function () {
         this.followers = [];
         this.error = false;
+        this.loading = false;
     },
 
     updateFollowers: function (payload) {
-        this.error = false;
+        this.initialize();
         this.followers = JSON.parse(payload);
         this.emitChange();
     },
 
     updateError: function(payload) {
+        this.initialize();
         this.error = payload;
         this.emitChange();
     },
 
+    showLoader: function() {
+        this.initialize();
+        this.loading = true;
+        this.emitChange();
+    },
+
     handlers: {
+        'UPDATE_FOLLOWERS_START': 'showLoader',
         'UPDATE_FOLLOWERS_SUCCESS': 'updateFollowers',
         'UPDATE_FOLLOWERS_ERROR': 'updateError'
     },
 
     getState: function () {
         return {
+            loading: this.loading,
             error: this.error,
             followers: this.followers
         };
@@ -34,12 +44,14 @@ var FollowersStore = createStore({
 
     dehydrate: function () {
         return {
+            loading: this.loading,
             error: this.error,
             followers: this.followers
         };
     },
 
     rehydrate: function (state) {
+        this.loading = state.loading;
         this.error = state.error;
         this.followers = state.followers;
     }

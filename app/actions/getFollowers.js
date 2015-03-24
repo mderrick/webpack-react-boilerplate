@@ -2,6 +2,17 @@ var request = require('superagent'),
     url = 'https://api.github.com/users/{username}/followers';
 
 module.exports = function (actionContext, payload, done) {
+
+    // The server should only call done when it has received data whereas on the
+    // client we call done right away as we want to dispatch an event to show
+    // a loader and dispatch the success event when it's done.
+    // https://github.com/yahoo/fluxible/issues/18
+    if (ENV.browser) {
+        done();
+    }
+
+    actionContext.dispatch('UPDATE_FOLLOWERS_START', true);
+    
     var username = payload.params.username || 'mderrick';
     request
         .get(url.replace('{username}', username))
