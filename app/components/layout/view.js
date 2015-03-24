@@ -1,8 +1,11 @@
 var React = require('react'),
 	Router = require('react-router'),
-	css = require('./style.css');
+	css = require('./style.css'),
+	FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var View = React.createClass({
+	
+	mixins: [FluxibleMixin],
 
 	classes: React.addons.classSet({
 		'layout': true
@@ -11,15 +14,14 @@ var View = React.createClass({
 	render: function () {
 		return (
 			<div className={this.classes}>
-				<h1>Webpack React Boilerplate</h1>
-				<div className="layout-logo"></div>
-				<ul>
-					<li>
+				<h1 className="layout-title">Webpack React Boilerplate</h1>
+				<ul className="layout-link-set">
+					<li className="layout-link-item">
 						<Router.Link to="/">
 							Home
 						</Router.Link>
 					</li>
-					<li>
+					<li className="layout-link-item">
 						<Router.Link to="/about">
 							About
 						</Router.Link>

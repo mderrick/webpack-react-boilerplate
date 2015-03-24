@@ -1,22 +1,25 @@
 .layout {
-	background-color: #eee;
+	padding: 20px;
 }
 
-.layout-logo {
-	height: 112px;
-	width: 100px;
-	background-image: url('./../../assets/webpack-logo.png');
-	background-size: cover;
-	transform: rotate(10deg);
+.layout .layout-title {
+	font-size: 28px;
 }
 
-.layout h1 {
-	margin-bottom: 20px;
-	font-size: 24px;
-	font-weight: bold;
+.layout .layout-link-set {
+	margin: 20px 0;
 }
 
-.layout ul {
-	margin-top: 15px;
+.layout .layout-link-item {
+	margin: 0 20px 0 0;
+	display: inline-block;
+}
+
+.layout .layout-link-item .active {
+	text-decoration: underline;
+}
+
+.layout .layout-subtitle {
+	font-size: 20px;
 	margin-bottom: 15px;
 }

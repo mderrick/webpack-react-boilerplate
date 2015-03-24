@@ -15,6 +15,7 @@ module.exports = function(gulp, plugins, args) {
             entry: 'client.js',
             target: 'web',
             output: {
+                publicPath: '/',
                 path: path.join(__dirname, '../dist'),
                 filename: 'entry.js',
                 chunkFilename: '[id].js'
@@ -32,14 +33,27 @@ module.exports = function(gulp, plugins, args) {
                 }, {
                     test: /react-with-addons\.js$/,
                     loader: 'expose?React'
+                }, {
+                    test: /superagent/,
+                    loader: 'expose?request'
+                }, {
+                    test: /\.json$/,
+                    loader: 'json'
                 }]
             },
-             resolve: {
+            // Superagent requires this with webpack:
+            // https://github.com/visionmedia/superagent/wiki/Superagent-for-Webpack
+            node: {
+                __dirname: true
+            },
+            resolve: {
                 root: [
                     path.join(__dirname, '../bower_components'),
                     path.join(__dirname, '../app'),
                 ],
                 alias: {
+                    // 'react/addons' is for 'node_modules/fluxible'
+                    'react/addons': 'react/react-with-addons.js',
                     'react': 'react/react-with-addons.js'
                 }
             },
@@ -55,7 +69,13 @@ module.exports = function(gulp, plugins, args) {
                 new webpack.ResolverPlugin(
                     new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
                 ),
-                new webpack.DefinePlugin(require(path.join(__dirname, '../env/', args.env))),
+                // Superagent requires this with webpack:
+                // https://github.com/visionmedia/superagent/wiki/Superagent-for-Webpack
+                new webpack.DefinePlugin({ 'global.GENTLY': false }),
+                new webpack.DefinePlugin({ 'ENV.browser': true }),
+                new webpack.DefinePlugin({
+                    ENV: require(path.join(__dirname, '../env/', args.env))
+                }),
                 new webpack.optimize.DedupePlugin(),
                 new ExtractTextPlugin('[name].css', {
                     allChunks: true
@@ -98,6 +118,7 @@ module.exports = function(gulp, plugins, args) {
         config.output.path = path.join(__dirname, '../server/dist');
         config.module.loaders[0].loader = ExtractTextPlugin.extract('css-loader!postcss-loader');
         config.output.libraryTarget = 'commonjs2';
+        config.plugins.splice(3, 1, new webpack.DefinePlugin({ 'ENV.browser': false }));
         config.plugins.splice(0, 1);
         delete config.devtool;
         return config;
@@ -111,18 +132,23 @@ module.exports = function(gulp, plugins, args) {
             compiler = webpack([getServerConfig(), config]),
             callbackCount = 0,
             webpackCallback = function(err, stats) {
+                // For some reason callback is called twice when we are watching.
+                // Fixing when we call the gulp callback by counting. Gross.
+                // https://github.com/webpack/webpack/issues/762
+                var cbCount = (args.watch) ? 1 : 0;
+
                 if (err) throw new plugins.util.PluginError('webpack', err);
 
                 // Both server and client builds have completed.
-                var initialBuildComplete = callbackCount > 1,
-                    callGulpCallback = callbackCount === 1;
+                var initialBuildComplete = callbackCount > cbCount,
+                    callGulpCallback = callbackCount === cbCount;
 
                 // Log stats info
                 // TODO: Make this more useful, logs out way too much crap
                 // http://webpack.github.io/docs/node.js-api.html#stats-tojson
-                plugins.util.log(stats.toString({
-                    colors: true
-                }));
+                // plugins.util.log(stats.toString({
+                //     colors: true
+                // }));
 
                 if (initialBuildComplete && args.watch) {
                     // TODO: Filename changed
@@ -131,6 +157,7 @@ module.exports = function(gulp, plugins, args) {
 
                 // Both server and client builds have completed.
                 if (callGulpCallback) {
+                    console.log('cb');
                     cb();
                     if (args.watch) {
                         plugins.util.log('Watching for changes');
