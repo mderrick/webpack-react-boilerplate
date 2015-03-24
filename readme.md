@@ -10,8 +10,6 @@ Also uses:
 - [Superagent](https://github.com/visionmedia/superagent)
 - [react-proxy-loader](https://github.com/webpack/react-proxy-loader)
 
-[Isomorphic Branch](https://github.com/mderrick/webpack-react-boilerplate/tree/fluxible) work in progress can be found here.
-
 ### Quick start
 - `npm install`
 - `bower install`
