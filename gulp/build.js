@@ -132,18 +132,23 @@ module.exports = function(gulp, plugins, args) {
             compiler = webpack([getServerConfig(), config]),
             callbackCount = 0,
             webpackCallback = function(err, stats) {
+                // For some reason callback is called twice when we are watching.
+                // Fixing when we call the gulp callback by counting. Gross.
+                // https://github.com/webpack/webpack/issues/762
+                var cbCount = (args.watch) ? 1 : 0;
+
                 if (err) throw new plugins.util.PluginError('webpack', err);
 
                 // Both server and client builds have completed.
-                var initialBuildComplete = callbackCount > 1,
-                    callGulpCallback = callbackCount === 1;
+                var initialBuildComplete = callbackCount > cbCount,
+                    callGulpCallback = callbackCount === cbCount;
 
                 // Log stats info
                 // TODO: Make this more useful, logs out way too much crap
                 // http://webpack.github.io/docs/node.js-api.html#stats-tojson
-                plugins.util.log(stats.toString({
-                    colors: true
-                }));
+                // plugins.util.log(stats.toString({
+                //     colors: true
+                // }));
 
                 if (initialBuildComplete && args.watch) {
                     // TODO: Filename changed
@@ -152,6 +157,7 @@ module.exports = function(gulp, plugins, args) {
 
                 // Both server and client builds have completed.
                 if (callGulpCallback) {
+                    console.log('cb');
                     cb();
                     if (args.watch) {
                         plugins.util.log('Watching for changes');
