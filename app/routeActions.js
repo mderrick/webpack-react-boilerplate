@@ -6,7 +6,7 @@ var async = require('async');
  * needed to render components.
  */
 module.exports = function(state, context, done) {
-	async.filterSeries(
+    async.filterSeries(
         state.routes.filter(function(route) {
             // TODO: handler.loadAction is not present using ProxyView
             return route.handler.loadAction?true:false;

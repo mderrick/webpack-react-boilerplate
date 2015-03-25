@@ -1,29 +1,29 @@
 .layout {
-	padding: 20px;
+    padding: 20px;
 }
 
 .layout .layout-title {
-	font-size: 28px;
+    font-size: 28px;
 }
 
 .layout .layout-link-set {
-	margin: 20px 0;
+    margin: 20px 0;
 }
 
 .layout .layout-link-item {
-	margin: 0 20px 0 0;
-	display: inline-block;
+    margin: 0 20px 0 0;
+    display: inline-block;
 }
 
 .layout .layout-link-item .active {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .layout .layout-subtitle {
-	font-size: 20px;
-	margin-bottom: 15px;
+    font-size: 20px;
+    margin-bottom: 15px;
 }
 
 .layout .layout-content {
-	position: relative;
+    position: relative;
 }

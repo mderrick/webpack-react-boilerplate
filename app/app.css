@@ -1,17 +1,17 @@
 @import '~css-reset/reset.css';
 
 a {
-	text-decoration: none;
-	color: #818181;
+    text-decoration: none;
+    color: #818181;
 }
 
 a:active,
 a:hover {
-	color: #bbb;
+    color: #bbb;
 }
 
 p {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .-clearfix:after {

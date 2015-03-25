@@ -1,18 +1,18 @@
 .alert {
-	padding: 10px;
-	color: white;
+    padding: 10px;
+    color: white;
 }
 
 .alert-warn {
-	background-color: yellow;
+    background-color: yellow;
 }
 
 .alert-error {
-	background-color: red;
+    background-color: red;
 }
 
 .alert-title {
-	display: block;
-	font-weight: bold;
-	margin-bottom: 3px;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 3px;
 }
