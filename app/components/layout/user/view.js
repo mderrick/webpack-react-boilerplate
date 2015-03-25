@@ -3,11 +3,12 @@ var React = require('react'),
     getUser = require('./../../../actions/getUser'),
     UserStore = require('./../../../stores/UserStore'),
     FluxibleMixin = require('fluxible').FluxibleMixin,
-    LoadingMixin = require('./../../../mixins/loading');
+    AlertComponent = require('components/common/alert'),
+    LoadingComponent = require('components/common/loading');
 
-var View = React.createClass({
+var UserComponent = React.createClass({
 
-    mixins: [FluxibleMixin, LoadingMixin],
+    mixins: [FluxibleMixin],
 
     statics: {
         storeListeners: [UserStore],
@@ -17,6 +18,7 @@ var View = React.createClass({
     },
     
     classes: React.addons.classSet({
+        'layout-content': true,
         'user': true
     }),
 
@@ -34,40 +36,34 @@ var View = React.createClass({
         var view;
 
         if (this.state.loading) {
-            view = this.getLoadingView();
+            view = <LoadingComponent />;
         } else if (this.state.error) {
-            view = (
-                <div className="error">
-                    <h2 className="layout-subtitle">User Error</h2>
-                    <p>Oops! There was an API problem.</p>
-                    <p>{this.state.error}</p>
-                </div>
-            );
+            view = <AlertComponent message={this.state.error} type='error'/>;
         } else {
             view = (
-                <div className="-clearfix">
-                    <h2 className="layout-subtitle">{this.state.user.login}</h2>
-                    <div className="user-image">
-                        <img className="user-image" src={this.state.user.avatar_url} />
+                <div className='-clearfix'>
+                    <h2 className='layout-subtitle'>{this.state.user.login}</h2>
+                    <div className='user-image'>
+                        <img className='user-image' src={this.state.user.avatar_url} />
                     </div>
-                    <ul className="user-detail-set">
-                        <li className="user-detail-item">
+                    <ul className='user-detail-set'>
+                        <li className='user-detail-item'>
                             {this.state.user.name}
                         </li>
-                        <li className="user-detail-item">
+                        <li className='user-detail-item'>
                             {this.state.user.location}
                         </li>
-                        <li className="user-detail-item">
+                        <li className='user-detail-item'>
                             <a href={'http://' + this.state.user.blog}>
                                 {this.state.user.blog}
                             </a>
                         </li>
-                        <li className="user-detail-item">
+                        <li className='user-detail-item'>
                             <a href={'mailto:' + this.state.user.email}>
                                 {this.state.user.email}
                             </a>
                         </li>
-                        <li className="user-detail-item">
+                        <li className='user-detail-item'>
                             <a target="_blank" href={this.state.user.url}>
                                 Visit GitHub Page
                             </a>
@@ -85,4 +81,4 @@ var View = React.createClass({
 
 });
 
-module.exports = View;
+module.exports = UserComponent;

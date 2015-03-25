@@ -4,11 +4,12 @@ var React = require('react'),
     getFollowers = require('./../../../actions/getFollowers'),
     FollowersStore = require('./../../../stores/FollowersStore'),
     FluxibleMixin = require('fluxible').FluxibleMixin,
-    LoadingMixin = require('./../../../mixins/loading');
+    AlertComponent = require('components/common/alert'),
+    LoadingComponent = require('components/common/loading');
 
-var View = React.createClass({
+var IndexComponent = React.createClass({
 
-    mixins: [FluxibleMixin, LoadingMixin],
+    mixins: [FluxibleMixin],
 
     statics: {
         storeListeners: [FollowersStore],
@@ -18,6 +19,7 @@ var View = React.createClass({
     },
 
     classes: React.addons.classSet({
+        'layout-content': true,
         'index': true
     }),
 
@@ -32,17 +34,15 @@ var View = React.createClass({
     },
 
     render: function () {
-
         var rows = [],
             view;
 
         for (var i = 0; i < this.state.followers.length; i++) {
             var user = this.state.followers[i];
-
             rows.push(
-                <li className="user-item">
-                    <Router.Link to="user" params={{username: user.login}}>
-                        <div className="user-item-image" >
+                <li className='user-item'>
+                    <Router.Link to='user' params={{username: user.login}}>
+                        <div className='user-item-image' >
                             <img src={user.avatar_url} />
                         </div>
                         {user.login}
@@ -52,24 +52,19 @@ var View = React.createClass({
         }
 
         if (this.state.loading) {
-            view = this.getLoadingView();
+            view = <LoadingComponent />;
         } else if (this.state.error) {
-            view = (
-                <div className="error">
-                    <p>Oops! There was an API problem.</p>
-                    <p>{this.state.error}</p>
-                </div>
-            );
+            view = <AlertComponent message={this.state.error} type='error'/>;
         } else {
             view = (
                 <div>
                     <p>
-                        <Router.Link to="user" params={{username: "mderrick"}}>
+                        <Router.Link to='user' params={{username: 'mderrick'}}>
                             mderrick's
                         </Router.Link>
                         &nbsp;GitHub Followers:
                     </p>
-                    <ul className="user-set">
+                    <ul className='user-set'>
                         {rows}
                     </ul>
                 </div>
@@ -78,7 +73,7 @@ var View = React.createClass({
 
         return (
             <div className={this.classes}>
-                <h2 className="layout-subtitle">
+                <h2 className='layout-subtitle'>
                     Home
                 </h2>
                 {view}
@@ -88,4 +83,4 @@ var View = React.createClass({
 
 });
 
-module.exports = View;
+module.exports = IndexComponent;

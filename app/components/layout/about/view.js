@@ -1,16 +1,17 @@
 var React = require('react'),
 	css = require('./style.css');
 
-var View = React.createClass({
+var AboutComponent = React.createClass({
 
 	classes: React.addons.classSet({
+		'layout-content': true,
 		'about': true
 	}),
 
 	render: function () {
 		return (
 			<div className={this.classes}>
-				<h2 className="layout-subtitle">About</h2>
+				<h2 className='layout-subtitle'>About</h2>
 				<p>Just an example isomorphic application using React, Fluxible 
 				and webpack code splitting!</p>
 
@@ -22,4 +23,4 @@ var View = React.createClass({
 
 });
 
-module.exports = View;
+module.exports = AboutComponent;

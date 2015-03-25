@@ -1,10 +1,12 @@
-var CodeSplitLoadingMixin = {
-	getLoadingView: function() {
-		return (<p>Loading...</p>);
-	},
+var LoadingComponent = require('components/common/loading');
 
+var CodeSplitLoadingMixin = {
 	renderUnavailable: function() {
-        return this.getLoadingView();
+        return (
+        	<div className='layout-content'>
+        		<LoadingComponent/>
+    		</div>
+		);
     }
 };
 
