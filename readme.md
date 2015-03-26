@@ -27,7 +27,7 @@ Also uses:
 - [ ] Expose `statics.loadAction` from the code split proxied view without duplicating in
 proxied view.
 - [ ] Stylesheets for routes (Right now including all CSS in one stylsheet but we need to only include CSS for the HTML that is rendered). Further CSS at a code split should be returned within the JS chunk. [See here](https://github.com/webpack/react-webpack-server-side-example/blob/master/server/style-collector.loader.js) for help maybe.
-- [ ] Remove webpack configs into own files `webpack.default.config.js`, `webpack.dev.config.js`, `webpack.release.config.js` and `webpack.server.config.js`.
+- [x] Remove webpack configs into own files `webpack.default.config.js`, `webpack.dev.config.js`, `webpack.release.config.js` and `webpack.server.config.js`.
 - [ ] Look into a more reliable way to overide plugins and loaders array items without relying on position.
 - [ ] Livereload change event to include changed filename.
 - [ ] Namespace CSS correctly.
